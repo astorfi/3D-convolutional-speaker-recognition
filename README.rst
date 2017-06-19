@@ -10,7 +10,7 @@ provided as well.
 .. _paper: https://arxiv.org/abs/1705.09422
 .. _TensorFlow: https://www.tensorflow.org/
 
-The code has been developed using TensorFlow_. The input pipeline must be prepaired by the users.
+The code has been developed using TensorFlow_. The input pipeline must be prepared by the users.
 This code is aimed to provide the implementation for Speaker Verification (SR) by using 3D convolutional neural networks
 following the SR protocol.
 
@@ -19,8 +19,8 @@ following the SR protocol.
 General View
 --------------
 
-We leveraged 3D convolutional architecture for creating the speaker model in order to simeoultaneously
-capturing the speech-realted and temporal information from the speakers' utterances.
+We leveraged 3D convolutional architecture for creating the speaker model in order to simultaneously
+capturing the speech-related and temporal information from the speakers' utterances.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Speaker Verification Protocol(SVP)
@@ -34,17 +34,17 @@ verification in three phases.
      to classify speakers at the utterance-level.
 
      2. In the **enrollment stage**, the trained network is utilized to directly create a
-     speaker model for each speaker based on the extracted fea-
-     tures.
+     speaker model for each speaker based on the extracted
+ features.
 
      3. Finally, in the **evaluation phase**, the extracted features
      from the test utterance will be compared to the stored speaker
      model to verify the claimed identity.
 
-The aformentioned three phases, are usually considered as the SV protocol. One of the main
+The aforementioned three phases are usually considered as the SV protocol. One of the main
 challenges is the creation of the speaker models. Previously-reported approaches create
 speaker models based on averaging the extracted features from utterances of the speaker,
-which is known as a d-vector system.
+which is known as the d-vector system.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 How to leverage 3D Convolutional Neural Networks?
@@ -52,7 +52,7 @@ How to leverage 3D Convolutional Neural Networks?
 
 In our paper, we propose to use the 3D-CNNs for direct speaker model creation
 in which, for both development and enrollment phases, an identical number of
-speaker utterances is fed to the network for representing the speaker utterances
+speaker utterances is fed to the network for representing the spoken utterances
 and creation of the speaker model. This leads to simultaneously capturing the
 speaker-related information and building a more robust system to cope with
 within-speaker variation. We demonstrate that the proposed method significantly
@@ -63,10 +63,10 @@ outperforms the d-vector verification system.
 Code Implementation
 --------------------
 
-The input pipline must be provided by the user. The rest of the implementation consider the dataset
+The input pipeline must be provided by the user. The rest of the implementation consider the dataset
 which contains the utterance-based extracted features are stored in a ``HDF5`` file. However, this
-is not a necessity becasue by following the code, it can be seen that the experiments can be done by
-any file format as long as it is adaptible with ``TensorFlow``.
+is not a necessity because by following the code, it can be seen that the experiments can be done by
+any file format as long as it is adaptable with ``TensorFlow``.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Input Pipeline for this work
@@ -76,12 +76,10 @@ Input Pipeline for this work
     :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif
 
 The MFCC features can be used as the data representation of the spoken utterances at the frame level. However, a
-drawback is their non-local characteristics due to the last DCT 1 operation for generating MFCCs. This operation dis-
-turbs the locality property and is in contrast with the local characteristics of the convolutional operations. The employed
-approach in this paper is to use the log-energies, which we
-call MFECs 2 . The extraction of MFECs is similar to MFCCs
+drawback is their non-local characteristics due to the last DCT 1 operation for generating MFCCs. This operation disturbs the locality property and is in contrast with the local characteristics of the convolutional operations. The employed approach in this work is to use the log-energies, which we
+call MFECs. The extraction of MFECs is similar to MFCCs
 by discarding the DCT operation. The temporal features are
-overlapping 20ms windows with stride of 10ms, which are
+overlapping 20ms windows with the stride of 10ms, which are
 used for the generation of spectrum features. From a 0.8-
 second sound sample, 80 temporal feature sets (each forms
 a 40 MFEC features) can be obtained which form the input
@@ -99,7 +97,7 @@ Implementation of 3D Convolutional Operation
 
 .. _Slim: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim
 
-The Slim_ high level API made our life very easy. The following script has been used for our
+The Slim_ high-level API made our life very easy. The following script has been used for our
 implemention:
 
 .. code:: python
@@ -157,7 +155,7 @@ Disclaimer
 
 .. _link: https://github.com/tensorflow/models/tree/master/slim
 
-The code architecture part, has been heavily inspired by Slim_ and Slim image classification
+The code architecture part has been heavily inspired by Slim_ and Slim image classification
 library. Please refer to this link_ for further details.
 
 ---------
@@ -188,8 +186,7 @@ The license is as follows:
 
       To apply the Apache License to your work, attach the following
       boilerplate notice, with the fields enclosed by brackets "{}"
-      replaced with your own identifying information. (Don't include
-      the brackets!)  The text should be enclosed in the appropriate
+      replaced with your own identifying information. (Don't include the brackets!)  The text should be enclosed in the appropriate
       comment syntax for the file format. We also recommend that a
       file or class name and description of purpose be included on the
       same "printed page" as the copyright notice for easier
@@ -219,8 +216,8 @@ Please refer to LICENSE_ file for further detail.
 Contribution
 -------------
 
-We are looking forward for you kind feed back. Please help us to improve the code and make
-our work better. For contribution, please create pull request and we will investigate is promptly.
+We are looking forward to your kind feedback. Please help us to improve the code and make
+our work better. For contribution, please create the pull request and we will investigate it promptly.
 Once again, we appreciate your feedback and code inspections.
  
 
