@@ -90,14 +90,6 @@ the development and enrollment stages.
 
 The speech feature have been extracted using [SpeechPy]_ package.
 
-.. [SpeechPy] @misc{amirsina_torfi_2017_810392,
-                    author       = {Amirsina Torfi},
-                    title        = {astorfi/speech_feature_extraction: SpeechPy},
-                    month        = jun,
-                    year         = 2017,
-                    doi          = {10.5281/zenodo.810392},
-                    url          = {https://doi.org/10.5281/zenodo.810392}}
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Implementation of 3D Convolutional Operation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -194,3 +186,14 @@ Contribution
 We are looking forward for you kind feed back. Please help us to improve the code and make
 our work better. For contribution, please create pull request and we will investigate is promptly.
  Once again, we appreciate your feedback and code inspections.
+ 
+
+.. rubric:: references
+
+.. [SpeechPy] @misc{amirsina_torfi_2017_810392,
+                    author       = {Amirsina Torfi},
+                    title        = {astorfi/speech_feature_extraction: SpeechPy},
+                    month        = jun,
+                    year         = 2017,
+                    doi          = {10.5281/zenodo.810392},
+                    url          = {https://doi.org/10.5281/zenodo.810392}}
