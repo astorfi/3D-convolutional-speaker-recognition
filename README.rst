@@ -34,8 +34,7 @@ verification in three phases.
      to classify speakers at the utterance-level.
 
      2. In the **enrollment stage**, the trained network is utilized to directly create a
-     speaker model for each speaker based on the extracted
- features.
+     speaker model for each speaker based on the extracted features.
 
      3. Finally, in the **evaluation phase**, the extracted features
      from the test utterance will be compared to the stored speaker
