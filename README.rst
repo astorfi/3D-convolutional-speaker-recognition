@@ -15,16 +15,16 @@ This code is aimed to provide the implementation for Speaker Verification (SR) b
 following the SR protocol.
 
 
--------------
+--------------
 General View
--------------
+--------------
 
 We leveraged 3D convolutional architecture for creating the speaker model in order to simeoultaneously
 capturing the speech-realted and temporal information from the speakers' utterances.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Speaker Verification Protocol(SVP)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this work, a 3D Convolutional Neural Network (3D-CNN)
 architecture has been utilized for text-independent speaker
@@ -46,9 +46,9 @@ challenges is the creation of the speaker models. Previously-reported approaches
 speaker models based on averaging the extracted features from utterances of the speaker,
 which is known as a d-vector system.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 How to leverage 3D Convolutional Neural Networks?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In our paper, we propose to use the 3D-CNNs for direct speaker model creation
 in which, for both development and enrollment phases, an identical number of
@@ -68,9 +68,9 @@ which contains the utterance-based extracted features are stored in a ``HDF5`` f
 is not a necessity becasue by following the code, it can be seen that the experiments can be done by
 any file format as long as it is adaptible with ``TensorFlow``.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Input Pipeline for this work
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The MFCC features can be used as the data representation of the spoken utterances at the frame level. However, a
 drawback is their non-local characteristics due to the last DCT 1 operation for generating MFCCs. This operation dis-
@@ -99,9 +99,9 @@ The speech feature have been extracted using [SpeechPy]_ package.
   url          = {https://doi.org/10.5281/zenodo.810392}
       }
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Implementation of 3D Convolutional Operation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. _Slim: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim
 
@@ -181,7 +181,7 @@ If you used this code please cite the following paper:
     year={2017}
   }
 
----------
+--------
 License
 --------
 
