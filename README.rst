@@ -1,6 +1,6 @@
-=====================================
-3D-convolutional-speaker-recognition
-=====================================
+================================================================
+Using 3D Convolutional Neural Networks for Speaker Verification
+================================================================
 
 This repository contains the code release for our paper titled as *"Text-Independent
 Speaker Verification Using 3D Convolutional Neural Networks"*. The link to the paper_ is
