@@ -72,6 +72,9 @@ any file format as long as it is adaptible with ``TensorFlow``.
 Input Pipeline for this work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. image:: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif
+    :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif
+
 The MFCC features can be used as the data representation of the spoken utterances at the frame level. However, a
 drawback is their non-local characteristics due to the last DCT 1 operation for generating MFCCs. This operation dis-
 turbs the locality property and is in contrast with the local characteristics of the convolutional operations. The employed
@@ -88,7 +91,7 @@ frames and their corresponding spectral features, where ζ is
 the number of utterances used in modeling the speaker during
 the development and enrollment stages.
 
-The speech feature have been extracted using [SpeechPy]_ package.
+The **speech features** have been extracted using [SpeechPy]_ package.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Implementation of 3D Convolutional Operation
