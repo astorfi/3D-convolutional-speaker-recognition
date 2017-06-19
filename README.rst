@@ -185,7 +185,7 @@ Contribution
 
 We are looking forward for you kind feed back. Please help us to improve the code and make
 our work better. For contribution, please create pull request and we will investigate is promptly.
- Once again, we appreciate your feedback and code inspections.
+Once again, we appreciate your feedback and code inspections.
  
 
 .. rubric:: references
