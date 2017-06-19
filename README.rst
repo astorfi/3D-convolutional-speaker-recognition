@@ -181,7 +181,7 @@ The license is as follows:
 .. code:: shell 
 
 
-     APPENDIX: How to apply the Apache License to your work.
+   APPENDIX: How to apply the Apache License to your work.
 
       To apply the Apache License to your work, attach the following
       boilerplate notice, with the fields enclosed by brackets "{}"
@@ -205,6 +205,11 @@ The license is as follows:
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+
+Please refer to LICENSE_ file for further detail.
+
+.. _LICENSE: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/LICENSE
 
 
 -------------
