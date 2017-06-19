@@ -1,7 +1,7 @@
 ================================================================
 Using 3D Convolutional Neural Networks for Speaker Verification
 ================================================================
-
+   
 This repository contains the code release for our paper titled as *"Text-Independent
 Speaker Verification Using 3D Convolutional Neural Networks"*. The link to the paper_ is
 provided as well.
@@ -13,6 +13,9 @@ provided as well.
 The code has been developed using TensorFlow_. The input pipeline must be prepared by the users.
 This code is aimed to provide the implementation for Speaker Verification (SR) by using 3D convolutional neural networks
 following the SR protocol.
+
+.. image:: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
+    :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
 
 
 --------------
