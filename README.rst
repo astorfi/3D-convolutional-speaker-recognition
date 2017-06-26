@@ -100,7 +100,7 @@ Implementation of 3D Convolutional Operation
 .. _Slim: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim
 
 The Slim_ high-level API made our life very easy. The following script has been used for our
-implemention:
+implementation:
 
 .. code:: python
 
