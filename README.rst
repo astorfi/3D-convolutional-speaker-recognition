@@ -164,7 +164,7 @@ library. Please refer to this link_ for further details.
 Citation
 ---------
 
-If you used this code please cite the following paper:
+If you used this code please kindly cite the following paper:
 
 .. code:: shell
 
