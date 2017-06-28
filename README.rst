@@ -1,7 +1,7 @@
 ================================================================
 Using 3D Convolutional Neural Networks for Speaker Verification
 ================================================================
-
+   
 This repository contains the code release for our paper titled as *"Text-Independent
 Speaker Verification Using 3D Convolutional Neural Networks"*. The link to the paper_ is
 provided as well.
@@ -13,6 +13,9 @@ provided as well.
 The code has been developed using TensorFlow_. The input pipeline must be prepared by the users.
 This code is aimed to provide the implementation for Speaker Verification (SR) by using 3D convolutional neural networks
 following the SR protocol.
+
+.. image:: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
+    :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
 
 
 --------------
@@ -97,7 +100,7 @@ Implementation of 3D Convolutional Operation
 .. _Slim: https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim
 
 The Slim_ high-level API made our life very easy. The following script has been used for our
-implemention:
+implementation:
 
 .. code:: python
 
@@ -161,7 +164,7 @@ library. Please refer to this link_ for further details.
 Citation
 ---------
 
-If you used this code please cite the following paper:
+If you used this code please kindly cite the following paper:
 
 .. code:: shell
 
@@ -222,10 +225,4 @@ Once again, we appreciate your feedback and code inspections.
 
 .. rubric:: references
 
-.. [SpeechPy] @misc{amirsina_torfi_2017_810392,
-                    author       = {Amirsina Torfi},
-                    title        = {astorfi/speech_feature_extraction: SpeechPy},
-                    month        = jun,
-                    year         = 2017,
-                    doi          = {10.5281/zenodo.810392},
-                    url          = {https://doi.org/10.5281/zenodo.810392}}
+.. [SpeechPy] Amirsina Torfi. 2017. astorfi/speech_feature_extraction: SpeechPy. Zenodo. doi:10.5281/zenodo.810392.
