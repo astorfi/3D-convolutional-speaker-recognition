@@ -9,7 +9,6 @@ import tables
 import numpy as np
 from sklearn.model_selection import KFold
 from tensorflow.python.ops import control_flow_ops
-from datasets import dataset_factory
 from deployment import model_deploy
 import random
 from nets import nets_factory
@@ -164,7 +163,7 @@ tf.app.flags.DEFINE_string(
     'model_speech', 'cnn_speech', 'The name of the architecture to train.')
 
 tf.app.flags.DEFINE_integer(
-    'batch_size', 513, 'The number of samples in each batch.')
+    'batch_size', 3, 'The number of samples in each batch. It will be the number of samples distributed for all clones.')
 
 tf.app.flags.DEFINE_integer(
     'num_epochs', 300, 'The number of epochs for training.')
@@ -302,18 +301,35 @@ def average_gradients(tower_grads):
     return average_grads
 
 
-# Load the dataset
-fileh = tables.open_file('/DATASET/PATH.hdf5', mode='r')
+# Load the sample artificial dataset
+fileh = tables.open_file('development_sample_dataset_speaker.hdf5', mode='r')
 
+##################################
+######### Check dataset ##########
+##################################
 
+# Train
+print("Train data shape:", fileh.root.utterance_train.shape)
+print("Train label shape:", fileh.root.label_train.shape)
+
+# Test
+print("Test data shape:", fileh.root.utterance_test.shape)
+print("Test label shape:",fileh.root.label_test.shape)
+
+# Get the number of subjects
+num_subjects = len(np.unique(fileh.root.label_train[:]))
+
+#################################
+####### Main function ###########
+#################################
 def main(_):
-    # if not FLAGS.dataset_dir:
-    #     raise ValueError('You must supply the dataset directory with --dataset_dir')
 
+    # Log
     tf.logging.set_verbosity(tf.logging.INFO)
 
     graph = tf.Graph()
     with graph.as_default(), tf.device('/cpu:0'):
+
         ######################
         # Config model_deploy#
         ######################
@@ -324,7 +340,9 @@ def main(_):
             num_replicas=FLAGS.worker_replicas,
             num_ps_tasks=FLAGS.num_ps_tasks)
 
-        # required from data
+        #########################################
+        ########## required from data ###########
+        #########################################
         num_samples_per_epoch = fileh.root.label_train.shape[0]
         num_batches_per_epoch = int(num_samples_per_epoch / FLAGS.batch_size)
 
@@ -334,9 +352,9 @@ def main(_):
         # Create global_step
         global_step = tf.Variable(0, name='global_step', trainable=False)
 
-        #########################################
-        # Configure the larning rate. #
-        #########################################
+        #####################################
+        #### Configure the larning rate. ####
+        #####################################
         learning_rate = _configure_learning_rate(num_samples_per_epoch, global_step)
         opt = _configure_optimizer(learning_rate)
 
@@ -344,11 +362,13 @@ def main(_):
         # Select the network #
         ######################
 
+        # Training flag.
         is_training = tf.placeholder(tf.bool)
 
+        # Get the network. The number of subjects is num_subjects.
         model_speech_fn = nets_factory.get_network_fn(
             FLAGS.model_speech,
-            num_classes=511,
+            num_classes=num_subjects,
             weight_decay=FLAGS.weight_decay,
             is_training=is_training)
 
@@ -391,15 +411,24 @@ def main(_):
                            1 - distance_weighted: which is a weighted average of the distance between two structures.
                            2 - distance_l2: which is the regular l2-norm of the two networks outputs.
                         Place holders
-
                         """
 
-                        ###############################################
-                        ########## Loss function ##########
-                        ###############################################
+                        ########################################
+                        ######## Outputs of two networks #######
+                        ########################################
 
+                        # Distribute data among all clones equally.
+                        step = int(FLAGS.batch_size / float(FLAGS.num_clones))
+
+                        # Network outputs.
+                        logits, end_points_speech = model_speech_fn(batch_speech[i * step: (i + 1) * step])
+
+
+                        ###################################
+                        ########## Loss function ##########
+                        ###################################
                         # one_hot labeling
-                        label_onehot = tf.one_hot(tf.squeeze(batch_labels[i * step : (i + 1) * step], [1]), depth=511, axis=-1)
+                        label_onehot = tf.one_hot(tf.squeeze(batch_labels[i * step : (i + 1) * step], [1]), depth=num_subjects, axis=-1)
 
                         SOFTMAX = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=label_onehot)
 
@@ -453,13 +482,8 @@ def main(_):
         # Add summaries for all end_points.
         for end_point in end_points_speech:
             x = end_points_speech[end_point]
-            summaries.add(tf.summary.scalar('sparsity_speech/' + end_point,
+            summaries.add(tf.summary.scalar('sparsity/' + end_point,
                                             tf.nn.zero_fraction(x)))
-
-        # for end_point in end_points_speech_R:
-        #     x = end_points_speech_R[end_point]
-        #     summaries.add(tf.summary.scalar('sparsity_mouth/' + end_point,
-        #                                     tf.nn.zero_fraction(x)))
 
         # Add summaries for variables.
         for variable in slim.get_model_variables():
@@ -505,7 +529,7 @@ def main(_):
                 speech_train, label_train = fileh.root.utterance_train[start_idx:end_idx, :, :,
                                             :], fileh.root.label_train[start_idx:end_idx]
 
-                # Getting the train batch.
+                # This transpose is necessary for 3D convolutional operation which will be performed by TensorFlow.
                 speech_train = np.transpose(speech_train[None, :, :, :, :], axes=(1, 4, 2, 3, 0))
 
                 # shuffling
@@ -529,7 +553,7 @@ def main(_):
                 if (batch_num + 1) % 1 == 0:
                     print("Epoch " + str(epoch + 1) + ", Minibatch " + str(
                         batch_num + 1) + " of %d " % num_batches_per_epoch + ", Minibatch Loss= " + \
-                          "{:.6f}".format(loss_value) + ", TRAIN ACCURACY= " + "{:.5f}".format(
+                          "{:.4f}".format(loss_value) + ", TRAIN ACCURACY= " + "{:.3f}".format(
                         100 * train_accuracy))
 
             # Save the model
@@ -574,13 +598,17 @@ def main(_):
             print("TESTING after finishing the training on: epoch " + str(epoch + 1))
             # print("TESTING accuracy = ", 100 * np.mean(test_accuracy_vector, axis=0))
 
-            K = 5
+            K = 4
             Accuracy = np.zeros((K, 1))
             batch_k_validation = int(test_accuracy_vector.shape[0] / float(K))
 
             for i in range(K):
                 Accuracy[i, :] = 100 * np.mean(test_accuracy_vector[i * batch_k_validation:(i + 1) * batch_k_validation], axis=0)
-            print('Test Accuracy=', np.mean(Accuracy, axis=0), np.std(Accuracy, axis=0))
+
+            # Reporting the K-fold validation
+            print("Test Accuracy " + str(epoch + 1) + ", Mean= " + \
+                          "{:.4f}".format(np.mean(Accuracy, axis=0)[0]) + ", std= " + "{:.3f}".format(
+                        np.std(Accuracy, axis=0)[0]))
 
 
 if __name__ == '__main__':
