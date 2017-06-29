@@ -74,7 +74,7 @@ any file format as long as it is adaptable with ``TensorFlow``.
 Input Pipeline for this work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. image:: _images/Speech_GIF.gif
+.. image:: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif
     :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif
 
 The MFCC features can be used as the data representation of the spoken utterances at the frame level. However, a
