@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using 3D Convolutional Neural Networks for Speaker Verification &#8212; 3D-convolutional-speaker-recognition 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-3d-convolutional-neural-networks-for-speaker-verification">
+<h1>Using 3D Convolutional Neural Networks for Speaker Verification<a class="headerlink" href="#using-3d-convolutional-neural-networks-for-speaker-verification" title="Permalink to this headline">¶</a></h1>
+<p>This repository contains the code release for our paper titled as <em>&#8220;Text-Independent
+Speaker Verification Using 3D Convolutional Neural Networks&#8221;</em>. The link to the <a class="reference external" href="https://arxiv.org/abs/1705.09422">paper</a> is
+provided as well.</p>
+<p>The code has been developed using <a class="reference external" href="https://www.tensorflow.org/">TensorFlow</a>. The input pipeline must be prepared by the users.
+This code is aimed to provide the implementation for Speaker Verification (SR) by using 3D convolutional neural networks
+following the SR protocol.</p>
+<a class="reference external image-reference" href="https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif"><img alt="https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif" src="https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif" /></a>
+<div class="section" id="general-view">
+<h2>General View<a class="headerlink" href="#general-view" title="Permalink to this headline">¶</a></h2>
+<p>We leveraged 3D convolutional architecture for creating the speaker model in order to simultaneously
+capturing the speech-related and temporal information from the speakers&#8217; utterances.</p>
+<div class="section" id="speaker-verification-protocol-svp">
+<h3>Speaker Verification Protocol(SVP)<a class="headerlink" href="#speaker-verification-protocol-svp" title="Permalink to this headline">¶</a></h3>
+<p>In this work, a 3D Convolutional Neural Network (3D-CNN)
+architecture has been utilized for text-independent speaker
+verification in three phases.</p>
+<blockquote>
+<div><p>1. At the <strong>development phase</strong>, a CNN is trained
+to classify speakers at the utterance-level.</p>
+<p>2. In the <strong>enrollment stage</strong>, the trained network is utilized to directly create a
+speaker model for each speaker based on the extracted features.</p>
+<p>3. Finally, in the <strong>evaluation phase</strong>, the extracted features
+from the test utterance will be compared to the stored speaker
+model to verify the claimed identity.</p>
+</div></blockquote>
+<p>The aforementioned three phases are usually considered as the SV protocol. One of the main
+challenges is the creation of the speaker models. Previously-reported approaches create
+speaker models based on averaging the extracted features from utterances of the speaker,
+which is known as the d-vector system.</p>
+</div>
+<div class="section" id="how-to-leverage-3d-convolutional-neural-networks">
+<h3>How to leverage 3D Convolutional Neural Networks?<a class="headerlink" href="#how-to-leverage-3d-convolutional-neural-networks" title="Permalink to this headline">¶</a></h3>
+<p>In our paper, we propose to use the 3D-CNNs for direct speaker model creation
+in which, for both development and enrollment phases, an identical number of
+speaker utterances is fed to the network for representing the spoken utterances
+and creation of the speaker model. This leads to simultaneously capturing the
+speaker-related information and building a more robust system to cope with
+within-speaker variation. We demonstrate that the proposed method significantly
+outperforms the d-vector verification system.</p>
+</div>
+</div>
+<div class="section" id="code-implementation">
+<h2>Code Implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
+<p>The input pipeline must be provided by the user. The rest of the implementation consider the dataset
+which contains the utterance-based extracted features are stored in a <code class="docutils literal"><span class="pre">HDF5</span></code> file. However, this
+is not a necessity because by following the code, it can be seen that the experiments can be done by
+any file format as long as it is adaptable with <code class="docutils literal"><span class="pre">TensorFlow</span></code>.</p>
+<div class="section" id="input-pipeline-for-this-work">
+<h3>Input Pipeline for this work<a class="headerlink" href="#input-pipeline-for-this-work" title="Permalink to this headline">¶</a></h3>
+<a class="reference external image-reference" href="https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif"><img alt="https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif" src="https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif" /></a>
+<p>The MFCC features can be used as the data representation of the spoken utterances at the frame level. However, a
+drawback is their non-local characteristics due to the last DCT 1 operation for generating MFCCs. This operation disturbs the locality property and is in contrast with the local characteristics of the convolutional operations. The employed approach in this work is to use the log-energies, which we
+call MFECs. The extraction of MFECs is similar to MFCCs
+by discarding the DCT operation. The temporal features are
+overlapping 20ms windows with the stride of 10ms, which are
+used for the generation of spectrum features. From a 0.8-
+second sound sample, 80 temporal feature sets (each forms
+a 40 MFEC features) can be obtained which form the input
+speech feature map. Each input feature map has the dimen-
+sionality of ζ × 80 × 40 which is formed from 80 input
+frames and their corresponding spectral features, where ζ is
+the number of utterances used in modeling the speaker during
+the development and enrollment stages.</p>
+<p>The <strong>speech features</strong> have been extracted using <a class="reference internal" href="#speechpy" id="id1">[SpeechPy]</a> package.</p>
+</div>
+<div class="section" id="implementation-of-3d-convolutional-operation">
+<h3>Implementation of 3D Convolutional Operation<a class="headerlink" href="#implementation-of-3d-convolutional-operation" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim">Slim</a> high-level API made our life very easy. The following script has been used for our
+implementation:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv11&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv11_activation&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv12&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv12_activation&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">max_pool3d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ksize</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;VALID&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pool1&#39;</span><span class="p">)</span>
+
+<span class="c1">############ Conv-2 ###############</span>
+<span class="c1">############ Conv-1 ###############</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv21&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv21_activation&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv22&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv22_activation&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">max_pool3d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ksize</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;VALID&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pool2&#39;</span><span class="p">)</span>
+
+<span class="c1">############ Conv-3 ###############</span>
+<span class="c1">############ Conv-1 ###############</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv31&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv31_activation&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv32&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv32_activation&#39;</span><span class="p">)</span>
+<span class="c1"># net = slim.max_pool2d(net, [1, 1], stride=[4, 1], scope=&#39;pool1&#39;)</span>
+
+<span class="c1">############ Conv-4 ###############</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv41&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv41_activation&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv42&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv42_activation&#39;</span><span class="p">)</span>
+<span class="c1"># net = slim.max_pool2d(net, [1, 1], stride=[4, 1], scope=&#39;pool1&#39;)</span>
+
+<span class="c1">############ Conv-5 ###############</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">slim</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">normalizer_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;conv51&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="s1">&#39;conv51_activation&#39;</span><span class="p">)</span>
+
+<span class="c1"># net = slim.conv2d(net, 256, [1, 1], stride=[1, 1], scope=&#39;conv52&#39;)</span>
+<span class="c1"># net = PReLU(net, &#39;conv52_activation&#39;)</span>
+
+<span class="c1"># Last layer which is the logits for classes</span>
+<span class="n">logits</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">activation_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;fc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As it can be seen, <code class="docutils literal"><span class="pre">slim.conv2d</span></code> has been used. However, simply by using 3D kernels as <code class="docutils literal"><span class="pre">[k_x,</span> <span class="pre">k_y,</span> <span class="pre">k_z]</span></code>
+and <code class="docutils literal"><span class="pre">stride=[a,</span> <span class="pre">b,</span> <span class="pre">c]</span></code> it can be turned into a 3D-conv operation. The base of the <code class="docutils literal"><span class="pre">slim.conv2d</span></code> is
+<code class="docutils literal"><span class="pre">tf.contrib.layers.conv2d</span></code>. Please refer to official <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/contrib/layers">Documentation</a> for further details.</p>
+</div>
+</div>
+<div class="section" id="disclaimer">
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Permalink to this headline">¶</a></h2>
+<p>The code architecture part has been heavily inspired by <a class="reference external" href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim">Slim</a> and Slim image classification
+library. Please refer to this <a class="reference external" href="https://github.com/tensorflow/models/tree/master/slim">link</a> for further details.</p>
+</div>
+<div class="section" id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>If you used this code please kindly cite the following paper:</p>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="nd">@article</span><span class="p">{</span><span class="n">torfi2017text</span><span class="p">,</span>
+  <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">Text</span><span class="o">-</span><span class="n">Independent</span> <span class="n">Speaker</span> <span class="n">Verification</span> <span class="n">Using</span> <span class="mi">3</span><span class="n">D</span> <span class="n">Convolutional</span> <span class="n">Neural</span> <span class="n">Networks</span><span class="p">},</span>
+  <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Torfi</span><span class="p">,</span> <span class="n">Amirsina</span> <span class="ow">and</span> <span class="n">Nasrabadi</span><span class="p">,</span> <span class="n">Nasser</span> <span class="n">M</span> <span class="ow">and</span> <span class="n">Dawson</span><span class="p">,</span> <span class="n">Jeremy</span><span class="p">},</span>
+  <span class="n">journal</span><span class="o">=</span><span class="p">{</span><span class="n">arXiv</span> <span class="n">preprint</span> <span class="n">arXiv</span><span class="p">:</span><span class="mf">1705.09422</span><span class="p">},</span>
+  <span class="n">year</span><span class="o">=</span><span class="p">{</span><span class="mi">2017</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>The license is as follows:</p>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">APPENDIX</span><span class="p">:</span> <span class="n">How</span> <span class="n">to</span> <span class="n">apply</span> <span class="n">the</span> <span class="n">Apache</span> <span class="n">License</span> <span class="n">to</span> <span class="n">your</span> <span class="n">work</span><span class="o">.</span>
+
+   <span class="n">To</span> <span class="n">apply</span> <span class="n">the</span> <span class="n">Apache</span> <span class="n">License</span> <span class="n">to</span> <span class="n">your</span> <span class="n">work</span><span class="p">,</span> <span class="n">attach</span> <span class="n">the</span> <span class="n">following</span>
+   <span class="n">boilerplate</span> <span class="n">notice</span><span class="p">,</span> <span class="k">with</span> <span class="n">the</span> <span class="n">fields</span> <span class="n">enclosed</span> <span class="n">by</span> <span class="n">brackets</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+   <span class="n">replaced</span> <span class="k">with</span> <span class="n">your</span> <span class="n">own</span> <span class="n">identifying</span> <span class="n">information</span><span class="o">.</span> <span class="p">(</span><span class="n">Don</span><span class="s1">&#39;t include the brackets!)  The text should be enclosed in the appropriate</span>
+   <span class="n">comment</span> <span class="n">syntax</span> <span class="k">for</span> <span class="n">the</span> <span class="n">file</span> <span class="nb">format</span><span class="o">.</span> <span class="n">We</span> <span class="n">also</span> <span class="n">recommend</span> <span class="n">that</span> <span class="n">a</span>
+   <span class="n">file</span> <span class="ow">or</span> <span class="k">class</span> <span class="nc">name</span> <span class="ow">and</span> <span class="n">description</span> <span class="n">of</span> <span class="n">purpose</span> <span class="n">be</span> <span class="n">included</span> <span class="n">on</span> <span class="n">the</span>
+   <span class="n">same</span> <span class="s2">&quot;printed page&quot;</span> <span class="k">as</span> <span class="n">the</span> <span class="n">copyright</span> <span class="n">notice</span> <span class="k">for</span> <span class="n">easier</span>
+   <span class="n">identification</span> <span class="n">within</span> <span class="n">third</span><span class="o">-</span><span class="n">party</span> <span class="n">archives</span><span class="o">.</span>
+
+<span class="n">Copyright</span> <span class="p">{</span><span class="mi">2017</span><span class="p">}</span> <span class="p">{</span><span class="n">Amirsina</span> <span class="n">Torfi</span><span class="p">}</span>
+
+<span class="n">Licensed</span> <span class="n">under</span> <span class="n">the</span> <span class="n">Apache</span> <span class="n">License</span><span class="p">,</span> <span class="n">Version</span> <span class="mf">2.0</span> <span class="p">(</span><span class="n">the</span> <span class="s2">&quot;License&quot;</span><span class="p">);</span>
+<span class="n">you</span> <span class="n">may</span> <span class="ow">not</span> <span class="n">use</span> <span class="n">this</span> <span class="n">file</span> <span class="k">except</span> <span class="ow">in</span> <span class="n">compliance</span> <span class="k">with</span> <span class="n">the</span> <span class="n">License</span><span class="o">.</span>
+<span class="n">You</span> <span class="n">may</span> <span class="n">obtain</span> <span class="n">a</span> <span class="n">copy</span> <span class="n">of</span> <span class="n">the</span> <span class="n">License</span> <span class="n">at</span>
+
+    <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">licenses</span><span class="o">/</span><span class="n">LICENSE</span><span class="o">-</span><span class="mf">2.0</span>
+
+<span class="n">Unless</span> <span class="n">required</span> <span class="n">by</span> <span class="n">applicable</span> <span class="n">law</span> <span class="ow">or</span> <span class="n">agreed</span> <span class="n">to</span> <span class="ow">in</span> <span class="n">writing</span><span class="p">,</span> <span class="n">software</span>
+<span class="n">distributed</span> <span class="n">under</span> <span class="n">the</span> <span class="n">License</span> <span class="ow">is</span> <span class="n">distributed</span> <span class="n">on</span> <span class="n">an</span> <span class="s2">&quot;AS IS&quot;</span> <span class="n">BASIS</span><span class="p">,</span>
+<span class="n">WITHOUT</span> <span class="n">WARRANTIES</span> <span class="n">OR</span> <span class="n">CONDITIONS</span> <span class="n">OF</span> <span class="n">ANY</span> <span class="n">KIND</span><span class="p">,</span> <span class="n">either</span> <span class="n">express</span> <span class="ow">or</span> <span class="n">implied</span><span class="o">.</span>
+<span class="n">See</span> <span class="n">the</span> <span class="n">License</span> <span class="k">for</span> <span class="n">the</span> <span class="n">specific</span> <span class="n">language</span> <span class="n">governing</span> <span class="n">permissions</span> <span class="ow">and</span>
+<span class="n">limitations</span> <span class="n">under</span> <span class="n">the</span> <span class="n">License</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Please refer to <a class="reference external" href="https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/LICENSE">LICENSE</a> file for further detail.</p>
+</div>
+<div class="section" id="contribution">
+<h2>Contribution<a class="headerlink" href="#contribution" title="Permalink to this headline">¶</a></h2>
+<p>We are looking forward to your kind feedback. Please help us to improve the code and make
+our work better. For contribution, please create the pull request and we will investigate it promptly.
+Once again, we appreciate your feedback and code inspections.</p>
+<p class="rubric">references</p>
+<table class="docutils citation" frame="void" id="speechpy" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[SpeechPy]</a></td><td>Amirsina Torfi. 2017. astorfi/speech_feature_extraction: SpeechPy. Zenodo. doi:10.5281/zenodo.810392.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using 3D Convolutional Neural Networks for Speaker Verification</a><ul>
+<li><a class="reference internal" href="#general-view">General View</a><ul>
+<li><a class="reference internal" href="#speaker-verification-protocol-svp">Speaker Verification Protocol(SVP)</a></li>
+<li><a class="reference internal" href="#how-to-leverage-3d-convolutional-neural-networks">How to leverage 3D Convolutional Neural Networks?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#code-implementation">Code Implementation</a><ul>
+<li><a class="reference internal" href="#input-pipeline-for-this-work">Input Pipeline for this work</a></li>
+<li><a class="reference internal" href="#implementation-of-3d-convolutional-operation">Implementation of 3D Convolutional Operation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
+<li><a class="reference internal" href="#citation">Citation</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+<li><a class="reference internal" href="#contribution">Contribution</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/README.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Amirsina Torfi.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/README.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
