@@ -166,7 +166,7 @@ tf.app.flags.DEFINE_integer(
     'batch_size', 3, 'The number of samples in each batch. It will be the number of samples distributed for all clones.')
 
 tf.app.flags.DEFINE_integer(
-    'num_epochs', 300, 'The number of epochs for training.')
+    'num_epochs', 50, 'The number of epochs for training.')
 
 # Store all elemnts in FLAG structure!
 FLAGS = tf.app.flags.FLAGS

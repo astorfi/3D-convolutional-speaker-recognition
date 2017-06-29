@@ -122,7 +122,6 @@ def speech_cnn(inputs, num_classes=1000,
             net = tf.nn.max_pool3d(net, strides=[1, 1, 1, 2, 1], ksize=[1, 1, 1, 2, 1], padding='VALID', name='pool1')
 
             ############ Conv-2 ###############
-            ############ Conv-1 ###############
             net = slim.conv2d(net, 32, [3, 1, 4], stride=[1, 1, 1], scope='conv21')
             net = PReLU(net, 'conv21_activation')
             net = slim.conv2d(net, 32, [3, 8, 1], stride=[1, 2, 1], scope='conv22')
@@ -130,7 +129,6 @@ def speech_cnn(inputs, num_classes=1000,
             net = tf.nn.max_pool3d(net, strides=[1, 1, 1, 2, 1], ksize=[1, 1, 1, 2, 1], padding='VALID', name='pool2')
 
             ############ Conv-3 ###############
-            ############ Conv-1 ###############
             net = slim.conv2d(net, 64, [3, 1, 3], stride=[1, 1, 1], scope='conv31')
             net = PReLU(net, 'conv31_activation')
             net = slim.conv2d(net, 64, [3, 7, 1], stride=[1, 1, 1], scope='conv32')

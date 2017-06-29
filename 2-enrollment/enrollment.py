@@ -117,8 +117,20 @@ tf.app.flags.DEFINE_integer(
 # Store all elemnts in FLAG structure!
 FLAGS = tf.app.flags.FLAGS
 
-# Load the dataset
-fileh = tables.open_file('/path/to/dataset/enrollment/phase.hdf5', mode='r')
+# Load the artificial datasets.
+fileh = tables.open_file('enrollment-evaluation_sample_dataset.hdf5', mode='r')
+fileh_development = tables.open_file('development_sample_dataset_speaker.hdf5', mode='r')
+# Train
+print("Enrollment data shape:", fileh.root.utterance_enrollment.shape)
+print("Enrollment label shape:", fileh.root.label_enrollment.shape)
+
+# Test
+print("Evaluation data shape:", fileh.root.utterance_evaluation.shape)
+print("Evaluation label shape:",fileh.root.label_evaluation.shape)
+
+# Get the number of subjects
+num_subjects_development = len(np.unique(fileh_development.root.label_train[:]))
+
 
 def main(_):
     # if not FLAGS.dataset_dir:
@@ -154,9 +166,10 @@ def main(_):
 
         is_training = tf.placeholder(tf.bool)
 
+        # num_subjects is the number of subjects in development phase and not the enrollment.
         model_speech_fn = nets_factory.get_network_fn(
             FLAGS.model_speech,
-            num_classes=511,
+            num_classes=num_subjects_development,
             is_training=is_training)
 
         ##############################################################
@@ -166,7 +179,7 @@ def main(_):
         """
         Define the place holders and creating the batch tensor.
         """
-        speech = tf.placeholder(tf.float32, (80, 40, 20))
+        speech = tf.placeholder(tf.float32, (20, 80, 40, 1))
         label = tf.placeholder(tf.int32, (1))
         batch_dynamic = tf.placeholder(tf.int32, ())
         margin_imp_tensor = tf.placeholder(tf.float32, ())
@@ -196,30 +209,14 @@ def main(_):
                         ########################################
                         ######## Outputs of two networks #######
                         ########################################
-                        # step = int(FLAGS.batch_size / float(FLAGS.num_clones))
-                        # logits, end_points_speech = model_speech_fn(batch_speech[i * step : (i + 1) * step])
                         features, logits, end_points_speech = model_speech_fn(batch_speech)
 
 
-                        # # Uncomment if the output embedding is desired to be as |f(x)| = 1
-                        # logits_speech = tf.nn.l2_normalize(logits_speech, dim=1, epsilon=1e-12, name=None)
-                        # logits_mouth = tf.nn.l2_normalize(logits_mouth, dim=1, epsilon=1e-12, name=None)
-
-                        #######################################################
-                        ################# Distance Calculation ################
-                        #######################################################
-
-                        # ##### Weighted distance using a fully connected layer #####
-                        # distance_vector = tf.abs(tf.subtract(logits_speech_L, logits_speech_R, name=None))
-                        # logits = slim.fully_connected(distance_vector, 2, normalizer_fn=None, activation_fn=None,
-                        #                               scope='fc_weighted')
-
-                        ###############################################
-                        ########## Loss function ##########
-                        ###############################################
-
                         # one_hot labeling
-                        label_onehot = tf.one_hot(tf.squeeze(batch_labels, [1]), depth=511, axis=-1)
+                        # num_subjects is the number of subjects in development phase and not the enrollment.
+                        # Because we are using the pretrained network in the development phase and use the features of the
+                        # layer prior to Softmax!
+                        label_onehot = tf.one_hot(tf.squeeze(batch_labels, [1]), depth=num_subjects_development, axis=-1)
 
                         # Define loss
                         with tf.name_scope('loss'):
@@ -291,7 +288,7 @@ def main(_):
         ############## ENROLLMENT Model ################
         ################################################
 
-        checkpoint_dir = 'path/to/checkpoint'
+        checkpoint_dir = '/home/sina/GITHUB/3D-convolutional-speaker-recognition/2-enrollment/sample_checkpoint/train_logs-4'
         saver.restore(sess, checkpoint_dir)
 
         # The model predefinition.

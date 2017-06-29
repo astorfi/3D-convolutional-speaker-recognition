@@ -115,54 +115,50 @@ def speech_cnn(inputs, num_classes=1000,
             inputs = tf.to_float(inputs)
 
             ############ Conv-1 ###############
-            net = slim.conv2d(inputs, 16, [1, 5], stride=[1, 1], scope='conv11')
+            net = slim.conv2d(inputs, 16, [3, 1, 5], stride=[1, 1, 1], scope='conv11')
             net = PReLU(net, 'conv11_activation')
-            net = slim.conv2d(net, 16, [9, 1], stride=[2, 1], scope='conv12')
+            net = slim.conv2d(net, 16, [3, 9, 1], stride=[1, 2, 1], scope='conv12')
             net = PReLU(net, 'conv12_activation')
-            net = slim.max_pool2d(net, [1, 2], stride=[1, 2], scope='pool1')
+            net = tf.nn.max_pool3d(net, strides=[1, 1, 1, 2, 1], ksize=[1, 1, 1, 2, 1], padding='VALID', name='pool1')
 
             ############ Conv-2 ###############
-            ############ Conv-1 ###############
-            net = slim.conv2d(net, 32, [1, 4], stride=[1, 1], scope='conv21')
+            net = slim.conv2d(net, 32, [3, 1, 4], stride=[1, 1, 1], scope='conv21')
             net = PReLU(net, 'conv21_activation')
-            net = slim.conv2d(net, 32, [8, 1], stride=[2, 1], scope='conv22')
+            net = slim.conv2d(net, 32, [3, 8, 1], stride=[1, 2, 1], scope='conv22')
             net = PReLU(net, 'conv22_activation')
-            net = slim.max_pool2d(net, [1, 2], stride=[1, 2], scope='pool1')
+            net = tf.nn.max_pool3d(net, strides=[1, 1, 1, 2, 1], ksize=[1, 1, 1, 2, 1], padding='VALID', name='pool2')
 
             ############ Conv-3 ###############
-            ############ Conv-1 ###############
-            net = slim.conv2d(net, 64, [1, 3], stride=[1, 1], scope='conv31')
+            net = slim.conv2d(net, 64, [3, 1, 3], stride=[1, 1, 1], scope='conv31')
             net = PReLU(net, 'conv31_activation')
-            net = slim.conv2d(net, 64, [7, 1], stride=[1, 1], scope='conv32')
+            net = slim.conv2d(net, 64, [3, 7, 1], stride=[1, 1, 1], scope='conv32')
             net = PReLU(net, 'conv32_activation')
             # net = slim.max_pool2d(net, [1, 1], stride=[4, 1], scope='pool1')
 
             ############ Conv-4 ###############
-            net = slim.conv2d(net, 128, [1, 3], stride=[1, 1], scope='conv41')
+            net = slim.conv2d(net, 128, [3, 1, 3], stride=[1, 1, 1], scope='conv41')
             net = PReLU(net, 'conv41_activation')
-            net = slim.conv2d(net, 128, [7, 1], stride=[1, 1], scope='conv42')
+            net = slim.conv2d(net, 128, [3, 7, 1], stride=[1, 1, 1], scope='conv42')
             net = PReLU(net, 'conv42_activation')
             # net = slim.max_pool2d(net, [1, 1], stride=[4, 1], scope='pool1')
 
             ############ Conv-5 ###############
-            net = slim.conv2d(net, 128, [3, 3], stride=[1, 1], normalizer_fn=None, scope='conv51')
-            features = net
+            net = slim.conv2d(net, 128, [4, 3, 3], stride=[1, 1, 1], normalizer_fn=None, scope='conv51')
             net = PReLU(net, 'conv51_activation')
 
             # net = slim.conv2d(net, 256, [1, 1], stride=[1, 1], scope='conv52')
             # net = PReLU(net, 'conv52_activation')
 
             # Last layer which is the logits for classes
-            logits = tf.contrib.layers.conv2d(net, num_classes, [1, 1], activation_fn=None, scope='fc')
+            logits = tf.contrib.layers.conv2d(net, num_classes, [1, 1, 1], activation_fn=None, scope='fc')
 
             # Return the collections as a dictionary
             end_points = slim.utils.convert_collection_to_dict(end_points_collection)
 
             # Squeeze spatially to eliminate extra dimensions.(embedding layer)
             if spatial_squeeze:
-                logits = tf.squeeze(logits, [1, 2], name='fc/squeezed')
-                features = tf.squeeze(features, [1, 2], name='fc/features')
+                logits = tf.squeeze(logits, [1, 2, 3], name='fc/squeezed')
                 end_points[sc.name + '/fc'] = logits
 
-            return features, logits, end_points
+            return logits, end_points
 
