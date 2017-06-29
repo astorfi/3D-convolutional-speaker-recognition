@@ -11,8 +11,9 @@ import scipy.io as sio
 from sklearn import *
 import matplotlib.pyplot as plt
 
-score = np.load('/home/sina/GITHUB/SpearkerRecognitionProject/CNN-SOFTMAX-joint/evaluation/files/score_vector.npy')
-label = np.load('/home/sina/GITHUB/SpearkerRecognitionProject/CNN-SOFTMAX-joint/evaluation/files/target_label_vector.npy')
+score = np.load('files/score_vector.npy')
+label = np.load('files/target_label_vector.npy')
+
 
 
 def calculate_eer_auc_ap(label,distance):
@@ -27,7 +28,8 @@ def calculate_eer_auc_ap(label,distance):
 
     return EER,AUC,AP,fpr, tpr
 
-k=5
+# K-fold validation for ROC
+k=1
 step = int(label.shape[0] / float(k))
 EER_VECTOR = np.zeros((k,1))
 AUC_VECTOR = np.zeros((k,1))

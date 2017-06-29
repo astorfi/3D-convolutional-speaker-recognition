@@ -122,6 +122,7 @@ def speech_cnn(inputs, num_classes=1000,
             net = tf.nn.max_pool3d(net, strides=[1, 1, 1, 2, 1], ksize=[1, 1, 1, 2, 1], padding='VALID', name='pool1')
 
             ############ Conv-2 ###############
+            ############ Conv-1 ###############
             net = slim.conv2d(net, 32, [3, 1, 4], stride=[1, 1, 1], scope='conv21')
             net = PReLU(net, 'conv21_activation')
             net = slim.conv2d(net, 32, [3, 8, 1], stride=[1, 2, 1], scope='conv22')
@@ -129,6 +130,7 @@ def speech_cnn(inputs, num_classes=1000,
             net = tf.nn.max_pool3d(net, strides=[1, 1, 1, 2, 1], ksize=[1, 1, 1, 2, 1], padding='VALID', name='pool2')
 
             ############ Conv-3 ###############
+            ############ Conv-1 ###############
             net = slim.conv2d(net, 64, [3, 1, 3], stride=[1, 1, 1], scope='conv31')
             net = PReLU(net, 'conv31_activation')
             net = slim.conv2d(net, 64, [3, 7, 1], stride=[1, 1, 1], scope='conv32')
@@ -144,6 +146,7 @@ def speech_cnn(inputs, num_classes=1000,
 
             ############ Conv-5 ###############
             net = slim.conv2d(net, 128, [4, 3, 3], stride=[1, 1, 1], normalizer_fn=None, scope='conv51')
+            features = net
             net = PReLU(net, 'conv51_activation')
 
             # net = slim.conv2d(net, 256, [1, 1], stride=[1, 1], scope='conv52')
@@ -158,7 +161,8 @@ def speech_cnn(inputs, num_classes=1000,
             # Squeeze spatially to eliminate extra dimensions.(embedding layer)
             if spatial_squeeze:
                 logits = tf.squeeze(logits, [1, 2, 3], name='fc/squeezed')
+                features = tf.squeeze(features, [1, 2, 3], name='features/squeezed')
                 end_points[sc.name + '/fc'] = logits
 
-            return logits, end_points
+            return features, logits, end_points
 

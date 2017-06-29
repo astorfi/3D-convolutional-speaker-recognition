@@ -250,24 +250,6 @@ def main(_):
             summaries.add(tf.summary.scalar('sparsity_speech/' + end_point,
                                             tf.nn.zero_fraction(x)))
 
-            # for end_point in end_points_speech_R:
-            #     x = end_points_speech_R[end_point]
-            #     summaries.add(tf.summary.scalar('sparsity_mouth/' + end_point,
-            #                                     tf.nn.zero_fraction(x)))
-
-            # # Add summaries for variables.
-            # for variable in slim.get_model_variables():
-            #     summaries.add(tf.summary.histogram(variable.op.name, variable))
-            #
-            # # # Add to parameters to summaries
-            # # summaries.add(tf.summary.scalar('learning_rate', learning_rate))
-            # # summaries.add(tf.summary.scalar('global_step', global_step))
-            # # summaries.add(tf.summary.scalar('eval/Loss', loss))
-            # # summaries |= set(tf.get_collection(tf.GraphKeys.SUMMARIES))
-            #
-            # # Merge all summaries together.
-            # summary_op = tf.summary.merge(list(summaries), name='summary_op')
-
     ###########################
     ######## ######## #########
     ###########################
@@ -281,27 +263,30 @@ def main(_):
         sess.run(tf.global_variables_initializer())
         sess.run(tf.local_variables_initializer())
 
-        # op to write logs to Tensorboard
-        summary_writer = tf.summary.FileWriter(FLAGS.train_dir, graph=graph)
-
         ################################################
         ############## ENROLLMENT Model ################
         ################################################
 
-        checkpoint_dir = '/home/sina/GITHUB/3D-convolutional-speaker-recognition/2-enrollment/sample_checkpoint/train_logs-4'
+        checkpoint_dir = 'sample_checkpoint/train_logs-4'
         saver.restore(sess, checkpoint_dir)
 
         # The model predefinition.
-        NumClasses = 100
+        NumClasses = 2
         NumLogits = 128
         MODEL = np.zeros((NumClasses, NumLogits), dtype=np.float32)
 
-        for speaker_id, speaker_class in enumerate(range(1, 101)):
-            # print(speaker_id,speaker_class)
+        # Go through the speakers.
+        for speaker_id, speaker_class in enumerate(range(1, 3)):
+
             # The contributung number of utterances
             NumUtterance = 20
             # Get the indexes for each speaker in the enrollment data
             speaker_index = np.where(fileh.root.label_enrollment[:] == speaker_class)[0]
+
+            # Check the minumum required utterances per speaker.
+            assert len(speaker_index) >= NumUtterance, "At least %d utterances is needed for each speaker" % NumUtterance
+
+            # Get the indexes.
             start_idx = speaker_index[0]
             end_idx = min(speaker_index[0] + NumUtterance, speaker_index[-1])
 
@@ -311,7 +296,8 @@ def main(_):
             speaker_enrollment, label_enrollment = fileh.root.utterance_enrollment[start_idx:end_idx, :, :,
                                                      0:1], fileh.root.label_enrollment[start_idx:end_idx]
 
-            speaker_enrollment = np.transpose(speaker_enrollment,axes=(3,1,2,0))
+            # Just adding a dimention for 3D convolutional operations.
+            speaker_enrollment = speaker_enrollment[None, :, :, :, :]
 
             # Evaluation
             feature = sess.run(
@@ -327,15 +313,13 @@ def main(_):
             # feature_speaker = sklearn.preprocessing.normalize(feature_speaker,norm='l2', axis=1, copy=True, return_norm=False)
 
             # Averaging for creation of the spekear model
-            speaker_model = np.mean(feature_speaker, axis=0)
+            speaker_model = feature_speaker
 
             # Creating the speaker model
             MODEL[speaker_id,:] = speaker_model
 
         # Save the created model.
         np.save('model/SPEAKER_MODEL.npy', MODEL)
-
-
 
 
 if __name__ == '__main__':

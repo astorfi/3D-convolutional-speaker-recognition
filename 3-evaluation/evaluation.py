@@ -109,7 +109,7 @@ tf.app.flags.DEFINE_string(
     'model_speech', 'cnn_speech', 'The name of the architecture to train.')
 
 tf.app.flags.DEFINE_integer(
-    'batch_size', 32, 'The number of samples in each batch.')
+    'batch_size', 1, 'The number of samples in each batch.')
 
 tf.app.flags.DEFINE_integer(
     'num_epochs', 50, 'The number of epochs for training.')
@@ -117,11 +117,19 @@ tf.app.flags.DEFINE_integer(
 # Store all elemnts in FLAG structure!
 FLAGS = tf.app.flags.FLAGS
 
-# Load the dataset
-fileh = tables.open_file('/path/to/dataset/evaluation/phase', mode='r')
+# Load the artificial datasets.
+fileh = tables.open_file('enrollment-evaluation_sample_dataset.hdf5', mode='r')
+fileh_development = tables.open_file('development_sample_dataset_speaker.hdf5', mode='r')
+# Train
+print("Enrollment data shape:", fileh.root.utterance_enrollment.shape)
+print("Enrollment label shape:", fileh.root.label_enrollment.shape)
 
+# Test
+print("Evaluation data shape:", fileh.root.utterance_evaluation.shape)
+print("Evaluation label shape:",fileh.root.label_evaluation.shape)
 
-
+# Get the number of subjects
+num_subjects_development = len(np.unique(fileh_development.root.label_train[:]))
 
 
 def main(_):
@@ -160,7 +168,7 @@ def main(_):
 
         model_speech_fn = nets_factory.get_network_fn(
             FLAGS.model_speech,
-            num_classes=511,
+            num_classes=num_subjects_development,
             is_training=is_training)
 
         ##############################################################
@@ -170,7 +178,7 @@ def main(_):
         """
         Define the place holders and creating the batch tensor.
         """
-        speech = tf.placeholder(tf.float32, (80, 40, 20))
+        speech = tf.placeholder(tf.float32, (20, 80, 40, 1))
         label = tf.placeholder(tf.int32, (1))
         batch_dynamic = tf.placeholder(tf.int32, ())
         margin_imp_tensor = tf.placeholder(tf.float32, ())
@@ -222,7 +230,7 @@ def main(_):
                         ###############################################
 
                         # one_hot labeling
-                        label_onehot = tf.one_hot(tf.squeeze(batch_labels, [1]), depth=511, axis=-1)
+                        label_onehot = tf.one_hot(tf.squeeze(batch_labels, [1]), depth=num_subjects_development, axis=-1)
 
                         # Define loss
                         with tf.name_scope('loss'):
@@ -294,10 +302,11 @@ def main(_):
         ############## ENROLLMENT Model ################
         ################################################
 
-        checkpoint_dir = '/home/sina/TRAIN_SOFTMAX/train_logs-23100'
+        checkpoint_dir = 'sample_checkpoint/train_logs-4'
         saver.restore(sess, checkpoint_dir)
 
-        MODEL = np.load('/home/sina/GITHUB/SpearkerRecognitionProject/CNN-SOFTMAX-joint/enrollment/model/SPEAKER_MODEL.npy')
+        MODEL = np.load('model/SPEAKER_MODEL.npy')
+
 
         # Feature and label vectors
         # num_batches_per_epoch_test = 1
@@ -317,6 +326,7 @@ def main(_):
 
             # Copy to match dimension
             speech_evaluation = np.repeat(speech_evaluation,20,axis=3)
+            speech_evaluation = np.transpose(speech_evaluation[None, :, :, :, :], axes=(1, 4, 2, 3, 0))
 
 
             feature = sess.run(
@@ -339,8 +349,8 @@ def main(_):
         ########################################
         ########## SCORE COMPUTATION ###########
         ########################################
-        NumClasses = 100
-        NumFeatures = 128
+        NumClasses = MODEL.shape[0]
+        NumFeatures = MODEL.shape[1]
         score_vector = np.zeros((feature_vector.shape[0]*NumClasses, 1))
         target_label_vector = np.zeros((feature_vector.shape[0]*NumClasses, 1))
 
@@ -359,8 +369,8 @@ def main(_):
                     target_label_vector[i * NumClasses + j] = 0
 
         # Save the score and label vector.
-        np.save('files/score_vector.npy',score_vector)
-        np.save('files/target_label_vector.npy',target_label_vector)
+        np.save('roc_curve/files/score_vector.npy',score_vector)
+        np.save('roc_curve/files/target_label_vector.npy',target_label_vector)
 
 
 
