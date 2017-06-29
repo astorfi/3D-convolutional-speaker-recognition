@@ -14,7 +14,7 @@ The code has been developed using TensorFlow_. The input pipeline must be prepar
 This code is aimed to provide the implementation for Speaker Verification (SR) by using 3D convolutional neural networks
 following the SR protocol.
 
-.. image:: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
+.. image:: _images/conv_gif.gif
     :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
 
 
