@@ -49,7 +49,6 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'3D-convolutional-speaker-recognition'
 copyright = u'2017, Amirsina Torfi'
 author = u'Amirsina Torfi'
 
@@ -94,6 +93,14 @@ html_theme = 'alabaster'
 #
 # html_theme_options = {}
 
+html_theme_options = {
+    'show_powered_by': False,
+    'github_user': 'astorfi',
+    'github_repo': 'TensorFlow-World',
+    'github_banner': True,
+    'show_related': False
+}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -104,6 +111,12 @@ html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = '3D-convolutional-speaker-recognitiondoc'
+
+# If true, links to the reST sources are added to the pages.
+html_show_sourcelink = False
+
+# If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
+html_show_sphinx = False
 
 
 # -- Options for LaTeX output ---------------------------------------------
