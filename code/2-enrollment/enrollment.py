@@ -23,19 +23,19 @@ tf.app.flags.DEFINE_string(
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_string(
-    'checkpoint_dir', 'results/TRAIN_CNN_3D',
+    'checkpoint_dir', '../../results/TRAIN_CNN_3D',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_string(
-    'development_dataset_path', None,
+    'development_dataset_path', '../../data/development_sample_dataset_speaker.hdf5',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_string(
-    'enrollment_dataset_path', None,
+    'enrollment_dataset_path', '../../data/enrollment-evaluation_sample_dataset.hdf5',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_string(
-    'enrollment_dir', None,
+    'enrollment_dir', '../../results/Model',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_integer('num_clones', 1,

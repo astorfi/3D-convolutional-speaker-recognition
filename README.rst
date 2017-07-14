@@ -19,6 +19,16 @@ following the SR protocol.
 .. image:: readme_images/conv_gif.gif
     :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
 
+-----
+DEMO
+-----
+
+For running a demo, after forking the repository, run the following scrit:
+
+.. code:: shell
+
+    /run.sh
+
 
 --------------
 General View

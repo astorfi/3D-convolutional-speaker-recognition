@@ -20,25 +20,25 @@ slim = tf.contrib.slim
 # Train Directory #
 ######################
 tf.app.flags.DEFINE_string(
-    'checkpoint_dir', 'results/TRAIN_CNN_3D',
+    'checkpoint_dir', '../../results/TRAIN_CNN_3D',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_string(
-    'evaluation_dataset_path', None,
+    'evaluation_dataset_path', '../../data/enrollment-evaluation_sample_dataset.hdf5',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_string(
-    'development_dataset_path', None,
-    'Directory where checkpoints and event logs are written to.')
-
-
-tf.app.flags.DEFINE_string(
-    'enrollment_dir', None,
+    'development_dataset_path', '../../data/development_sample_dataset_speaker.hdf5',
     'Directory where checkpoints and event logs are written to.')
 
 
 tf.app.flags.DEFINE_string(
-    'evaluation_dir', None,
+    'enrollment_dir', '../../results/Model',
+    'Directory where checkpoints and event logs are written to.')
+
+
+tf.app.flags.DEFINE_string(
+    'evaluation_dir', '../../results/ROC',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_integer('num_clones', 1,
@@ -307,7 +307,6 @@ def main(_):
         saver.restore(sess, latest_checkpoint)
 
         speaker_model_path = os.path.join(FLAGS.enrollment_dir,'MODEL.npy')
-        print("speaker_model_path",speaker_model_path)
         MODEL = np.load(speaker_model_path)
 
 

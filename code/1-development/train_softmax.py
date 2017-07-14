@@ -19,11 +19,11 @@ slim = tf.contrib.slim
 # Train Directory #
 ######################
 tf.app.flags.DEFINE_string(
-    'train_dir', 'TRAIN_SOFTMAX/train_logs',
+    'train_dir', '../../results/TRAIN_CNN_3D/train_logs',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_string(
-    'development_dataset_path', None,
+    'development_dataset_path', '../../data/development_sample_dataset_speaker.hdf5',
     'Directory where checkpoints and event logs are written to.')
 
 tf.app.flags.DEFINE_integer('num_clones', 3,
