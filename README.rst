@@ -1,7 +1,7 @@
 ==================================================================
 `Using 3D Convolutional Neural Networks for Speaker Verification`_
 ==================================================================
-   
+
 This repository contains the code release for our paper titled as *"Text-Independent
 Speaker Verification Using 3D Convolutional Neural Networks"*. The link to the paper_ is
 provided as well.
@@ -16,7 +16,7 @@ The code has been developed using TensorFlow_. The input pipeline must be prepar
 This code is aimed to provide the implementation for Speaker Verification (SR) by using 3D convolutional neural networks
 following the SR protocol.
 
-.. image:: _images/conv_gif.gif
+.. image:: readme_images/conv_gif.gif
     :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
 
 
@@ -76,7 +76,7 @@ any file format as long as it is adaptable with ``TensorFlow``.
 Input Pipeline for this work
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. image:: _images/Speech_GIF.gif
+.. image:: readme_images/Speech_GIF.gif
     :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/Speech_GIF.gif
 
 The MFCC features can be used as the data representation of the spoken utterances at the frame level. However, a
@@ -183,7 +183,7 @@ License
 
 The license is as follows:
 
-.. code:: shell 
+.. code:: shell
 
 
    APPENDIX: How to apply the Apache License to your work.
@@ -223,7 +223,7 @@ Contribution
 We are looking forward to your kind feedback. Please help us to improve the code and make
 our work better. For contribution, please create the pull request and we will investigate it promptly.
 Once again, we appreciate your feedback and code inspections.
- 
+
 
 .. rubric:: references
 
