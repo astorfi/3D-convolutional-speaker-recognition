@@ -12,7 +12,7 @@ install:
 
 script:
 
-  - coverage run --omit=*.virtualenvs*,*virtualenv* code/1-development/train_softmax.py --development_dataset_path='data/development_sample_dataset_speaker.hdf5'
+  - py.test code/1-development/train_softmax.py --development_dataset_path='data/development_sample_dataset_speaker.hdf5'
 
 after_success:
   coveralls
