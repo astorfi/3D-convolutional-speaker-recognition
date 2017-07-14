@@ -1,0 +1,7 @@
+numpy
+scipy
+python-coveralls
+tensorflow
+scikit-learn
+scikit-image
+tables
