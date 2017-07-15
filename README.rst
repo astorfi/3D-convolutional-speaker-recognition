@@ -37,7 +37,7 @@ For running a demo, after forking the repository, run the following scrit:
 
 .. code:: shell
 
-    /run.sh
+    ./run.sh
 
 
 --------------
