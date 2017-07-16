@@ -42,7 +42,7 @@ For running a demo, after forking the repository, run the following scrit:
 |speakerrecognition|
 
 .. |speakerrecognition| image:: readme_images/speakerrecognition.png
-    :target: https://asciinema.org/a/yfy6FryUAWWMl1vgylrRagMdwm
+    :target: https://asciinema.org/a/yfy6FryUAWWMl1vgylrRagMdw
 
 
 
