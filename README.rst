@@ -10,6 +10,8 @@
     :target: https://travis-ci.org/astorfi/3D-convolutional-speaker-recognition
 .. image:: https://coveralls.io/repos/github/astorfi/3D-convolutional-speaker-recognition/badge.svg?branch=master
     :target: https://coveralls.io/github/astorfi/3D-convolutional-speaker-recognition?branch=master
+.. image:: https://zenodo.org/badge/94718341.svg
+   :target: https://zenodo.org/badge/latestdoi/94718341
 
 
 This repository contains the code release for our paper titled as *"Text-Independent
@@ -38,6 +40,12 @@ For running a demo, after forking the repository, run the following scrit:
 .. code:: shell
 
     ./run.sh
+
+|speakerrecognition|
+
+.. |speakerrecognition| image:: readme_images/speakerrecognition.png
+    :target: https://asciinema.org/a/yfy6FryUAWWMl1vgylrRagMdw
+
 
 
 --------------
