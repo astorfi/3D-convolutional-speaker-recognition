@@ -82,7 +82,7 @@ which is known as the d-vector system.
 How to leverage 3D Convolutional Neural Networks?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In our paper, we propose the implementation of 3D-CNNs for direct speaker model creation
+In our paper, we propose the use of 3D-CNNs for direct speaker model creation
 in which, for both development and enrollment phases, an identical number of
 speaker utterances is fed to the network for representing the spoken utterances
 and creation of the speaker model. This leads to simultaneously capturing the
