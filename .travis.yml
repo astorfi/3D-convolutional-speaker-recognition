@@ -9,13 +9,15 @@ python:
 install:
   - pip install -r python_requirements.txt
   - pip install coveralls
+  - pip install codecov
 
 script:
 
   - coverage run --omit=*.virtualenvs*,*virtualenv* code/1-development/train_softmax.py --development_dataset_path='data/development_sample_dataset_speaker.hdf5' test
 
 after_success:
-  coveralls
+  - coveralls
+  - codecov
 
 sudo: enabled
 dist: trusty
