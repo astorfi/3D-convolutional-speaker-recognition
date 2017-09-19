@@ -2,14 +2,16 @@
 `Using 3D Convolutional Neural Networks for Speaker Verification`_
 ==================================================================
 
-.. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
-    :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/pulls
-.. image:: https://badges.frapsoft.com/os/v2/open-source.svg?v=102
-    :target: https://github.com/ellerbrock/open-source-badge/
 .. image:: https://travis-ci.org/astorfi/3D-convolutional-speaker-recognition.svg?branch=master
     :target: https://travis-ci.org/astorfi/3D-convolutional-speaker-recognition
 .. image:: https://coveralls.io/repos/github/astorfi/3D-convolutional-speaker-recognition/badge.svg?branch=master
     :target: https://coveralls.io/github/astorfi/3D-convolutional-speaker-recognition?branch=master
+.. image:: https://codecov.io/gh/astorfi/3D-convolutional-speaker-recognition/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/astorfi/3D-convolutional-speaker-recognition
+.. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
+    :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/pulls
+.. image:: https://badges.frapsoft.com/os/v2/open-source.svg?v=102
+    :target: https://github.com/ellerbrock/open-source-badge/
 .. image:: https://zenodo.org/badge/94718341.svg
    :target: https://zenodo.org/badge/latestdoi/94718341
 
