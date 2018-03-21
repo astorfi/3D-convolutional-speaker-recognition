@@ -33,6 +33,21 @@ following the SR protocol.
 .. image:: readme_images/conv_gif.gif
     :target: https://github.com/astorfi/3D-convolutional-speaker-recognition/blob/master/_images/conv_gif.gif
 
+------------
+Citation
+------------
+
+If you used this code, please kindly consider citing the following paper:
+
+.. code:: shell
+
+    @article{torfi2017text,
+      title={Text-independent speaker verification using 3d convolutional neural networks},
+      author={Torfi, Amirsina and Nasrabadi, Nasser M and Dawson, Jeremy},
+      journal={arXiv preprint arXiv:1705.09422},
+      year={2017}
+    }
+
 -----
 DEMO
 -----
