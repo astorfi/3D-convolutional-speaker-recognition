@@ -1,6 +1,3 @@
-import torch
-import torchvision
-import torchvision.transforms as transforms
 import os
 from scipy.io.wavfile import read
 import scipy.io.wavfile as wav
@@ -117,8 +114,6 @@ class AudioDataset():
             feature, label = sample['feature'], sample['label']
             sample = feature, label
 
-        # label = torch.from_numpy(np.asarray(sample[1]))
-        #
         return sample
         # return sample
 
