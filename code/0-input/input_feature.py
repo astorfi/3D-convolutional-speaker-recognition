@@ -127,7 +127,8 @@ class CMVN(object):
         feature, label = sample['feature'], sample['label']
 
         # Mean variance normalization of the spectrum.
-        feature = speechpy.processing.cmvn(feature, variance_normalization=True)
+        # The following line should be Uncommented if cepstral mean variance normalization is desired!
+        # feature = speechpy.processing.cmvn(feature, variance_normalization=True)
 
         return {'feature': feature, 'label': label}
 
