@@ -112,10 +112,7 @@ outperforms the d-vector verification system.
 Code Implementation
 --------------------
 
-The input pipeline must be provided by the user. The rest of the implementation consider the dataset
-which contains the utterance-based extracted features are stored in a ``HDF5`` file. However, this
-is not a necessity because by following the code, it can be seen that the experiments can be done by
-any file format as long as it is adaptable with ``TensorFlow``.
+The input pipeline must be provided by the user. **Please refer to ``code/0-input/input_feature.py`` for having an idea about how the input pipeline works.**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Input Pipeline for this work
@@ -137,6 +134,8 @@ sionality of ζ × 80 × 40 which is formed from 80 input
 frames and their corresponding spectral features, where ζ is
 the number of utterances used in modeling the speaker during
 the development and enrollment stages.
+
+
 
 The **speech features** have been extracted using [SpeechPy]_ package.
 
