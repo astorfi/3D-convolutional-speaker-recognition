@@ -233,6 +233,10 @@ if __name__ == '__main__':
 
     dataset = AudioDataset(files_path=args.file_path, audio_dir=args.audio_dir,
                            transform=Compose([CMVN(), Feature_Cube(cube_shape=(20, 80, 40), augmentation=True), ToOutput()]))
+   
+    # idx is the representation of the batch size which chosen to be as one sample (index) from the data.
+    # ex: batch_features = [dataset.__getitem__(idx)[0] for idx in range(32)] 
+    # The batch_features is a list and len(batch_features)=32.
     idx = 0
     feature, label = dataset.__getitem__(idx)
     print(feature.shape)
