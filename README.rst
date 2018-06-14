@@ -1,6 +1,8 @@
-==================================================================
-`Using 3D Convolutional Neural Networks for Speaker Verification`_
-==================================================================
+=============================================================================================
+Using 3D Convolutional Neural Networks for Speaker Verification - `Official Project Page`_
+=============================================================================================
+
+https://codeocean.com/2017/08/01/3d-convolutional-neural-networks-for-speaker-recognition/code
 
 .. image:: https://travis-ci.org/astorfi/3D-convolutional-speaker-recognition.svg?branch=master
     :target: https://travis-ci.org/astorfi/3D-convolutional-speaker-recognition
@@ -21,7 +23,7 @@ Speaker Verification Using 3D Convolutional Neural Networks"*. The link to the p
 provided as well.
 
 
-.. _Using 3D Convolutional Neural Networks for Speaker Verification: http://3d-convolutional-speaker-recognition.readthedocs.io/en/latest/
+.. _Official Project Page: http://3d-convolutional-speaker-recognition.readthedocs.io/en/latest/
 
 .. _paper: https://arxiv.org/abs/1705.09422
 .. _TensorFlow: https://www.tensorflow.org/
