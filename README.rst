@@ -1,6 +1,6 @@
-=============================================================================================
-Using 3D Convolutional Neural Networks for Speaker Verification - `Official Project Page`_
-=============================================================================================
+=========================================================================================================================
+TensorFlow implementation of 3D Convolutional Neural Networks for Speaker Verification - `Official Project Page`_ - `Pytorch Implementation`_
+=========================================================================================================================
 
 
 
@@ -24,6 +24,7 @@ provided as well.
 
 
 .. _Official Project Page: https://codeocean.com/2017/08/01/3d-convolutional-neural-networks-for-speaker-recognition/code
+.. _Pytorch Implementation: https://github.com/astorfi/3D-convolutional-speaker-recognition-pytorch
 
 .. _paper: https://arxiv.org/abs/1705.09422
 .. _TensorFlow: https://www.tensorflow.org/
