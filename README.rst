@@ -1,7 +1,14 @@
+.. image:: readme_images/follow-twitter.gif
+   :height: 100px
+   :width: 200 px
+   :scale: 50 %
+   :alt: alternate text
+   :align: right
+   :target: https://twitter.com/amirsinatorfi
+
 =========================================================================================================================
 TensorFlow implementation of 3D Convolutional Neural Networks for Speaker Verification - `Official Project Page`_ - `Pytorch Implementation`_
 =========================================================================================================================
-
 
 
 .. image:: https://travis-ci.org/astorfi/3D-convolutional-speaker-recognition.svg?branch=master
@@ -16,6 +23,8 @@ TensorFlow implementation of 3D Convolutional Neural Networks for Speaker Verifi
     :target: https://github.com/ellerbrock/open-source-badge/
 .. image:: https://zenodo.org/badge/94718341.svg
    :target: https://zenodo.org/badge/latestdoi/94718341
+.. image:: https://img.shields.io/twitter/follow/amirsinatorfi.svg?label=Follow&style=social
+      :target: https://twitter.com/amirsinatorfi
 
 
 This repository contains the code release for our paper titled as *"Text-Independent
