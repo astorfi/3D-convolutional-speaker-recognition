@@ -56,13 +56,13 @@ def speech_cnn_arg_scope(is_training, weight_decay=0.0005):
       An arg_scope.
     """
     # Add normalizer_fn=slim.batch_norm if Batch Normalization is required!
-    with slim.arg_scope([slim.conv2d, slim.fully_connected],
+    with slim.arg_scope([slim.conv3d, slim.fully_connected],
                         activation_fn=None,
                         normalizer_fn=slim.batch_norm,
                         weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=1.0, mode='FAN_AVG'),
                         weights_regularizer=slim.l2_regularizer(weight_decay),
                         biases_initializer=tf.zeros_initializer()):
-        with slim.arg_scope([slim.conv2d], padding='VALID') as arg_sc:
+        with slim.arg_scope([slim.conv3d], padding='VALID') as arg_sc:
             return arg_sc
 
 
@@ -86,7 +86,7 @@ def speech_cnn(inputs, num_classes=1000,
                        scope='cnn'):
     """Oxford Net VGG 11-Layers version A Example.
 
-    Note: All the fully_connected layers have been transformed to conv2d layers.
+    Note: All the fully_connected layers have been transformed to conv3d layers.
           To use in classification mode, resize input to 224x224.
 
     Args:
@@ -107,50 +107,50 @@ def speech_cnn(inputs, num_classes=1000,
     with tf.variable_scope(scope, 'net', [inputs]) as sc:
         end_points_collection = sc.name + '_end_points'
 
-        # Collect outputs for conv2d and max_pool2d.
-        with tf.contrib.framework.arg_scope([tf.contrib.layers.conv2d, tf.contrib.layers.max_pool2d],
+        # Collect outputs for conv3d and max_pool2d.
+        with tf.contrib.framework.arg_scope([tf.contrib.layers.conv3d, tf.contrib.layers.max_pool2d],
                                             outputs_collections=end_points_collection):
 
             ##### Convolution Section #####
             inputs = tf.to_float(inputs)
 
             ############ Conv-1 ###############
-            net = slim.conv2d(inputs, 16, [3, 1, 5], stride=[1, 1, 1], scope='conv11')
+            net = slim.conv3d(inputs, 16, [3, 1, 5], stride=[1, 1, 1], scope='conv11')
             net = PReLU(net, 'conv11_activation')
-            net = slim.conv2d(net, 16, [3, 9, 1], stride=[1, 2, 1], scope='conv12')
+            net = slim.conv3d(net, 16, [3, 9, 1], stride=[1, 2, 1], scope='conv12')
             net = PReLU(net, 'conv12_activation')
             net = tf.nn.max_pool3d(net, strides=[1, 1, 1, 2, 1], ksize=[1, 1, 1, 2, 1], padding='VALID', name='pool1')
 
             ############ Conv-2 ###############
-            net = slim.conv2d(net, 32, [3, 1, 4], stride=[1, 1, 1], scope='conv21')
+            net = slim.conv3d(net, 32, [3, 1, 4], stride=[1, 1, 1], scope='conv21')
             net = PReLU(net, 'conv21_activation')
-            net = slim.conv2d(net, 32, [3, 8, 1], stride=[1, 2, 1], scope='conv22')
+            net = slim.conv3d(net, 32, [3, 8, 1], stride=[1, 2, 1], scope='conv22')
             net = PReLU(net, 'conv22_activation')
             net = tf.nn.max_pool3d(net, strides=[1, 1, 1, 2, 1], ksize=[1, 1, 1, 2, 1], padding='VALID', name='pool2')
 
             ############ Conv-3 ###############
-            net = slim.conv2d(net, 64, [3, 1, 3], stride=[1, 1, 1], scope='conv31')
+            net = slim.conv3d(net, 64, [3, 1, 3], stride=[1, 1, 1], scope='conv31')
             net = PReLU(net, 'conv31_activation')
-            net = slim.conv2d(net, 64, [3, 7, 1], stride=[1, 1, 1], scope='conv32')
+            net = slim.conv3d(net, 64, [3, 7, 1], stride=[1, 1, 1], scope='conv32')
             net = PReLU(net, 'conv32_activation')
             # net = slim.max_pool2d(net, [1, 1], stride=[4, 1], scope='pool1')
 
             ############ Conv-4 ###############
-            net = slim.conv2d(net, 128, [3, 1, 3], stride=[1, 1, 1], scope='conv41')
+            net = slim.conv3d(net, 128, [3, 1, 3], stride=[1, 1, 1], scope='conv41')
             net = PReLU(net, 'conv41_activation')
-            net = slim.conv2d(net, 128, [3, 7, 1], stride=[1, 1, 1], scope='conv42')
+            net = slim.conv3d(net, 128, [3, 7, 1], stride=[1, 1, 1], scope='conv42')
             net = PReLU(net, 'conv42_activation')
             # net = slim.max_pool2d(net, [1, 1], stride=[4, 1], scope='pool1')
 
             ############ Conv-5 ###############
-            net = slim.conv2d(net, 128, [4, 3, 3], stride=[1, 1, 1], normalizer_fn=None, scope='conv51')
+            net = slim.conv3d(net, 128, [4, 3, 3], stride=[1, 1, 1], normalizer_fn=None, scope='conv51')
             net = PReLU(net, 'conv51_activation')
 
-            # net = slim.conv2d(net, 256, [1, 1], stride=[1, 1], scope='conv52')
+            # net = slim.conv3d(net, 256, [1, 1], stride=[1, 1], scope='conv52')
             # net = PReLU(net, 'conv52_activation')
 
             # Last layer which is the logits for classes
-            logits = tf.contrib.layers.conv2d(net, num_classes, [1, 1, 1], activation_fn=None, scope='fc')
+            logits = tf.contrib.layers.conv3d(net, num_classes, [1, 1, 1], activation_fn=None, scope='fc')
 
             # Return the collections as a dictionary
             end_points = slim.utils.convert_collection_to_dict(end_points_collection)
