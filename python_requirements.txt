@@ -1,7 +1,7 @@
 numpy
 scipy
 python-coveralls
-tensorflow-gpu
+tensorflow
 scikit-learn
 scikit-image
 tables
