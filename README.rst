@@ -13,8 +13,6 @@ TensorFlow implementation of 3D Convolutional Neural Networks for Speaker Verifi
 
 .. image:: https://travis-ci.org/astorfi/3D-convolutional-speaker-recognition.svg?branch=master
     :target: https://travis-ci.org/astorfi/3D-convolutional-speaker-recognition
-.. image:: https://coveralls.io/repos/github/astorfi/3D-convolutional-speaker-recognition/badge.svg?branch=master
-    :target: https://coveralls.io/github/astorfi/3D-convolutional-speaker-recognition?branch=master
 .. image:: https://codecov.io/gh/astorfi/3D-convolutional-speaker-recognition/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/astorfi/3D-convolutional-speaker-recognition
 .. image:: https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
